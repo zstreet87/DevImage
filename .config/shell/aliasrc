@@ -1,0 +1,79 @@
+#!/bin/sh
+
+# Use neovim for vim if present.
+[ -x "$(command -v lvim)" ] && alias vim="nvim" vimdiff="nvim -d"
+
+# Use $XINITRC variable if file exists.
+[ -f "$XINITRC" ] && alias startx="startx $XINITRC"
+
+# Verbosity and settings that you pretty much just always are going to want.
+alias \
+	cp="cp -iv" \
+	c="clear" \
+	mv="mv -iv" \
+	rm="rm -vI" \
+	bc="bc -ql" \
+	mkd="mkdir -pv" \
+	yt="youtube-dl --add-metadata -i" \
+	yta="yt -x -f bestaudio/best" \
+	ffmpeg="ffmpeg -hide_banner"
+
+# SSH
+alias \
+	rocm_node="ssh fpadmin@rocm-framework-5.amd.com" \
+	a100="ssh zstreete@10.216.97.242" \
+	MI200="ssh amd@10.216.70.66" \
+	ubb4="ssh mkm-ubb4-2" \
+	my_node="ssh zstreet@rocm-framework-5.amd.com"
+
+#Docker
+alias drun="docker run -it \
+            --network=host \
+            --device=/dev/kfd \
+            --device=/dev/dri \
+            --group-add=video \
+            --ipc=host \
+            --cap-add=SYS_PTRACE \
+            --security-opt \
+            seccomp=unconfined \
+            -v $HOME:$HOME"
+
+# Wrapper for LF to use Ueberzug
+# alias lf='lfub'
+
+# Tmux shortcuts
+alias \
+	t="tmux -2" \
+	ta="t a -t" \
+	tls="t ls" \
+	tn="t new -t" \
+	tks="t kill-server"
+
+# Colorize commands when possible.
+alias \
+	ls="ls -hN --color=auto --group-directories-first" \
+	grep="grep --color=auto" \
+	diff="diff --color=auto" \
+	ccat="highlight --out-format=ansi"
+
+# These common commands are just too long! Abbreviate them.
+alias \
+	ka="killall" \
+	g="git" \
+	trem="transmission-remote" \
+	YT="youtube-viewer" \
+	sdn="sudo shutdown -h now" \
+	e="$EDITOR" \
+	v="$EDITOR" \
+	xi="sudo xbps-install" \
+	xr="sudo xbps-remove -R" \
+	xq="xbps-query" \
+	z="zathura"
+
+alias \
+	magit="nvim -c MagitOnly" \
+	ref="shortcuts >/dev/null; source ${XDG_CONFIG_HOME:-$HOME/.config}/shell/shortcutrc ; source ${XDG_CONFIG_HOME:-$HOME/.config}/shell/zshnameddirrc" \
+	weath="less -S ${XDG_DATA_HOME:-$HOME/.local/share}/weatherreport" \
+
+#Games
+alias csgo="steam steam://rungameid/730"

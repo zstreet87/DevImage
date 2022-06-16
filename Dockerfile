@@ -44,11 +44,9 @@ RUN apt-get update && apt-get install -y neovim
 # record configuration for posterity
 RUN pip3 list
 
-# COPY $HOME/.zshrc /etc/zsh.zshrc
-# RUN chmod a+rwx /etc/zsh.zshrc
-
-# Run zsh on container start
+# Configuration setup
+ENV PATH="/root/.local/bin:${PATH}"
+COPY .local /root/.local
+COPY .config /root/.config
+COPY .zshrc /root/.zshrc
 CMD ["zsh"]
-
-# ENTRYPOINT ["/bin/bash", "-c", "source .zprofile"]
-# ENTRYPOINT ["conda", "install -c conda-forge fzf"]
