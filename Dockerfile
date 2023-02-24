@@ -1,5 +1,4 @@
-# FROM rocm/rocm-terminal
-FROM rocm/pytorch-private:rocm_pyt20_triton_ub20
+FROM rocm/rocm-terminal
 
 MAINTAINER Zachary Streeter <Zachary.Streeter@amd.com>
 USER root
