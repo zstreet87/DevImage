@@ -1,5 +1,5 @@
-# FROM rocm/rocm-terminal
-FROM rocm/pytorch-private:rocm_pyt20_triton_ub20
+FROM rocm/rocm-terminal
+# FROM rocm/pytorch-private:rocm_pyt20_triton_ub20
 
 MAINTAINER Zachary Streeter <Zachary.Streeter@amd.com>
 USER root
@@ -93,16 +93,24 @@ RUN ~/.fzf/install
 # get latest npm
 RUN npm install -g npm@latest
 
+# LunarVim
 RUN git clone https://github.com/LunarVim/LunarVim .LunarVim
 RUN ~/.LunarVim/utils/installer/install.sh -y
 
-ENV PATH="/root/.local/bin:${PATH}"
+# zsh highlighting and autosuggestion
+RUN mkdir -p /root/.local/zsh/plugins
+RUN git clone https://github.com/zdharma-continuum/fast-syntax-highlighting.git /root/.local/share/zsh/plugins/fast-syntax-highlighting
+RUN git clone https://github.com/zsh-users/zsh-autosuggestions /root/.local/share/zsh/plugins/zsh-autosuggestions
+
+# Tmux plugin manager
+RUN git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
 COPY .local /root/.local
 COPY .config /root/.config
 COPY .zshrc /root/.zshrc
-COPY .tmux /root/.tmux
 COPY .tmux.conf /root/.tmux.conf
-RUN echo 'export RPROMPT="$RPROMPT 🐳%F{blue}$DOCKER_CONTAINER_NAME"' >> /root/.zshrc
+# RUN sed -i '146i\export RPROMPT="$RPROMPT🐳%F{blue}$DOCKER_CONTAINER_NAME"' /root/.zshrc
+#ENV DOCKER_PROMPT_INFO="🐳%F{blue}$DOCKER_CONTAINER_NAME"
 RUN source ~/.zshrc
 
 ENTRYPOINT ["/bin/zsh"]

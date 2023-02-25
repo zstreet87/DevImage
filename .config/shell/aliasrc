@@ -1,0 +1,24 @@
+#!/bin/sh
+
+[ -x "$(command -v lvim)" ] && alias vim="lvim" vimdiff="lvim -d"
+
+alias \
+	v='$EDITOR' \
+	ls="ls -hN --color=auto --group-directories-firs" \
+	grep="grep --color=auto" \
+	diff="diff --color=auto" \
+	ccat="highlight --out-format=ansi" \
+	cp="cp -iv" \
+	mv="mv -iv" \
+	rm="rm -iv" \
+	bc="bc -ql" \
+	mkd="mkdir -pv" \
+	tmux="tmux -u" \
+	t="tmux" \
+	ta="t a -t" \
+	tls="t ls" \
+	tn="t new -t" \
+	tks="t kill-server"
+
+# alias \
+#     aws_ls = aws --region=us-east-2 s3 ls s3://datasets.dl/

@@ -1,14 +1,5 @@
-# Luke's config for the Zoomer Shell
-#!/bin/zsh
-
-# profile file. Runs on login. Environmental variables are set here.
-
-# If you don't plan on reverting to bash, you can remove the link in ~/.profile
-# to clean up.
-
 # Adds `~/.local/bin` to $PATH
-# PATH="$PATH:${$(find ~/.local/bin -type d -printf %p:)%%:}"
-PATH="$PATH:/$HOME/.local/bin"
+PATH="$PATH:${$(find ~/.local/bin -type d -printf %p:)%%:}"
 
 # Add ROCm programs for AMD development
 PATH="$PATH:/opt/rocm/bin:/opt/rocm/rocprofiler/bin:/opt/rocm/opencl/bin"
@@ -24,9 +15,9 @@ export PATH
 unsetopt PROMPT_SP
 
 # Default programs:
-export EDITOR="nvim"
+export EDITOR="lvim"
 export TERMINAL="st"
-export MANPAGER="nvim -c 'set ft=man' -"
+export MANPAGER="lvim -c 'set ft=man' -"
 
 # Number of threads available "cat /proc/cpuinfo | grep processor | wc -l"
 export JULIA_NUM_THREADS=48
@@ -37,28 +28,6 @@ export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_DATA_DIRS="$HOME/.local/share/flatpak/exports/share"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XINITRC="${XDG_CONFIG_HOME:-$HOME/.config}/x11/xinitrc"
-#export XAUTHORITY="$XDG_RUNTIME_DIR/Xauthority" # This line will break some DMs.
-export NOTMUCH_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/notmuch-config"
-export GTK2_RC_FILES="${XDG_CONFIG_HOME:-$HOME/.config}/gtk-2.0/gtkrc-2.0"
-export LESSHISTFILE="-"
-export WGETRC="${XDG_CONFIG_HOME:-$HOME/.config}/wget/wgetrc"
-export INPUTRC="${XDG_CONFIG_HOME:-$HOME/.config}/shell/inputrc"
-export ZDOTDIR="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"
-#export ALSA_CONFIG_PATH="$XDG_CONFIG_HOME/alsa/asoundrc"
-#export GNUPGHOME="${XDG_DATA_HOME:-$HOME/.local/share}/gnupg"
-export WINEPREFIX="${XDG_DATA_HOME:-$HOME/.local/share}/wineprefixes/default"
-export KODI_DATA="${XDG_DATA_HOME:-$HOME/.local/share}/kodi"
-export PASSWORD_STORE_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/password-store"
-export TMUX_TMPDIR="$XDG_RUNTIME_DIR"
-export ANDROID_SDK_HOME="${XDG_CONFIG_HOME:-$HOME/.config}/android"
-export CARGO_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/cargo"
-export GOPATH="${XDG_DATA_HOME:-$HOME/.local/share}/go"
-export ANSIBLE_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/ansible/ansible.cfg"
-export UNISON="${XDG_DATA_HOME:-$HOME/.local/share}/unison"
-export HISTFILE="${XDG_DATA_HOME:-$HOME/.local/share}/history"
-export WEECHAT_HOME="${XDG_CONFIG_HOME:-$HOME/.config}/weechat"
-export MBSYNCRC="${XDG_CONFIG_HOME:-$HOME/.config}/mbsync/config"
-export ELECTRUMDIR="${XDG_DATA_HOME:-$HOME/.local/share}/electrum"
 
 # Other program settings:
 export DICS="/usr/share/stardict/dic/"
@@ -80,39 +49,109 @@ export _JAVA_AWT_WM_NONREPARENTING=1	# Fix for Java applications in dwm
 
 export LF_ICONS="di=:fi=:ln=:or=:ex=:*.c=:*.cc=:*.clj=:*.coffee=:*.cpp=:*.css=:*.d=:*.dart=:*.erl=:*.exs=:*.fs=:*.go=:*.h=:*.hh=:*.hpp=:*.hs=:*.html=:*.java=:*.jl=:*.js=:*.json=:*.lua=:*.md=:*.php=:*.pl=:*.pro=:*.py=:*.rb=:*.rs=:*.scala=:*.ts=:*.vim=:*.cmd=:*.ps1=:*.sh=:*.bash=:*.zsh=:*.fish=:*.tar=:*.tgz=:*.arc=:*.arj=:*.taz=:*.lha=:*.lz4=:*.lzh=:*.lzma=:*.tlz=:*.txz=:*.tzo=:*.t7z=:*.zip=:*.z=:*.dz=:*.gz=:*.lrz=:*.lz=:*.lzo=:*.xz=:*.zst=:*.tzst=:*.bz2=:*.bz=:*.tbz=:*.tbz2=:*.tz=:*.deb=:*.rpm=:*.jar=:*.war=:*.ear=:*.sar=:*.rar=:*.alz=:*.ace=:*.zoo=:*.cpio=:*.7z=:*.rz=:*.cab=:*.wim=:*.swm=:*.dwm=:*.esd=:*.jpg=:*.jpeg=:*.mjpg=:*.mjpeg=:*.gif=:*.bmp=:*.pbm=:*.pgm=:*.ppm=:*.tga=:*.xbm=:*.xpm=:*.tif=:*.tiff=:*.png=:*.svg=:*.svgz=:*.mng=:*.pcx=:*.mov=:*.mpg=:*.mpeg=:*.m2v=:*.mkv=:*.webm=:*.ogm=:*.mp4=:*.m4v=:*.mp4v=:*.vob=:*.qt=:*.nuv=:*.wmv=:*.asf=:*.rm=:*.rmvb=:*.flc=:*.avi=:*.fli=:*.flv=:*.gl=:*.dl=:*.xcf=:*.xwd=:*.yuv=:*.cgm=:*.emf=:*.ogv=:*.ogx=:*.aac=:*.au=:*.flac=:*.m4a=:*.mid=:*.midi=:*.mka=:*.mp3=:*.mpc=:*.ogg=:*.ra=:*.wav=:*.oga=:*.opus=:*.spx=:*.xspf=:*.pdf="
 
-# Enable colors and change prompt:
-autoload -U colors && colors	# Load colors
-source "$HOME/.config/zsh/git-prompt.sh"
-setopt prompt_subst
-autoload -Uz vcs_info
-zstyle ':vcs_info:*' actionformats \
-    '%F{5}(%f%s%F{5})%F{3}-%F{5}[%F{2}%b%F{3}|%F{1}%a%F{5}]%f '
-zstyle ':vcs_info:*' formats       \
-    '%F{5}(%f%s%F{5})%F{3}-%F{5}[%F{2}%b%F{5}]%f '
-zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b%F{1}:%F{3}%r'
-zstyle ':vcs_info:*' enable git
-precmd() { vcs_info }
-RPROMPT='${vcs_info_msg_0_}'
-PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%1d%{$fg[red]%}]%{$reset_color%}
-%{$fg[blue]%}%{➜ %G%}%b "
-# PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
+# Usage: prompt-length TEXT [COLUMNS]
+#
+# If you run `print -P TEXT`, how many characters will be printed
+# on the last line?
+#
+# Or, equivalently, if you set PROMPT=TEXT with prompt_subst
+# option unset, on which column will the cursor be?
+#
+# The second argument specifies terminal width. Defaults to the
+# real terminal width.
+#
+# Assumes that `%{%}` and `%G` don't lie.
+#
+# Examples:
+#
+#   prompt-length ''            => 0
+#   prompt-length 'abc'         => 3
+#   prompt-length $'abc\nxy'    => 2
+#   prompt-length '❎'          => 2
+#   prompt-length $'\t'         => 8
+#   prompt-length $'\u274E'     => 2
+#   prompt-length '%F{red}abc'  => 3
+#   prompt-length $'%{a\b%Gb%}' => 1
+#   prompt-length '%D'          => 8
+#   prompt-length '%1(l..ab)'   => 2
+#   prompt-length '%(!.a.)'     => 1 if root, 0 if not
+function prompt-length() {
+  emulate -L zsh
+  local COLUMNS=${2:-$COLUMNS}
+  local -i x y=$#1 m
+  if (( y )); then
+    while (( ${${(%):-$1%$y(l.1.0)}[-1]} )); do
+      x=y
+      (( y *= 2 ));
+    done
+    local xy
+    while (( y > x + 1 )); do
+      m=$(( x + (y - x) / 2 ))
+      typeset ${${(%):-$1%$m(l.x.y)}[-1]}=$m
+    done
+  fi
+  echo $x
+}
 
-# export LS_COLORS=Excxbxdxfxegedabagacad
+# Usage: fill-line LEFT RIGHT
+#
+# Prints LEFT<spaces>RIGHT with enough spaces in the middle
+# to fill a terminal line.
+function fill-line() {
+  emulate -L zsh
+  local left_len=$(prompt-length $1)
+  local right_len=$(prompt-length $2 9999)
+  local pad_len=$((COLUMNS - left_len - right_len - ${ZLE_RPROMPT_INDENT:-1}))
+  if (( pad_len < 1 )); then
+    # Not enough space for the right part. Drop it.
+    echo -E - ${1}
+  else
+    local pad=${(pl.$pad_len.. .)}  # pad_len spaces
+    echo -E - ${1}${pad}${2}
+  fi
+}
+# Sets PROMPT and RPROMPT.
+#
+# Requires: prompt_percent and no_prompt_subst.
+function set-prompt() {
+  emulate -L zsh
+
+  # git info
+  source "$HOME/.local/share/zsh/plugins/git-prompt.sh"
+  setopt prompt_subst
+  autoload -Uz vcs_info
+  zstyle ':vcs_info:*' actionformats \
+      '%F{5}(%f%s%F{5})%F{3}-%F{5}[%F{2}%b%F{3}|%F{1}%a%F{5}]%f '
+  zstyle ':vcs_info:*' formats       \
+      '%F{5}(%f%s%F{5})%F{3}-%F{5}[%F{2}%b%F{5}]%f '
+  zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b%F{1}:%F{3}%r'
+  zstyle ':vcs_info:*' enable git
+  precmd() { vcs_info }
+
+  local top_left='%B%F{red}[%f%F{yellow}%n%f%F{green}@%f%F{blue}%M %f%F{magenta}%1d%f%F{red}]%f%b'
+  local top_right="${vcs_info_msg_0_}" # Git info
+  local bottom_left='%B%F{white}%{➜ %2G%}%f%b' 
+  local bottom_right="%B%F{blue}%{🐳%2G%} ${DOCKER_CONTAINER_NAME}%f%b"
+
+  PROMPT="$(fill-line "$top_left" "$top_right")"$'\n'$bottom_left
+  RPROMPT=$bottom_right
+}
+
+autoload -Uz add-zsh-hook
+add-zsh-hook precmd set-prompt
+setopt noprompt{bang,subst} prompt{cr,percent,sp}
 
 setopt autocd		# Automatically cd into typed directory.
 stty stop undef		# Disable ctrl-s to freeze terminal.
 setopt interactive_comments
-
 
 # History in cache directory:
 HISTSIZE=10000000
 SAVEHIST=10000000
 HISTFILE=~/.cache/zsh/history
 
-# Load aliases and shortcuts if existent.
-[ -f "${XDG_CONFIG_HOME:-$HOME/.config}/shell/shortcutrc" ] && source "${XDG_CONFIG_HOME:-$HOME/.config}/shell/shortcutrc"
+# Load aliases
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}/shell/aliasrc" ] && source "${XDG_CONFIG_HOME:-$HOME/.config}/shell/aliasrc"
-[ -f "${XDG_CONFIG_HOME:-$HOME/.config}/shell/zshnameddirrc" ] && source "${XDG_CONFIG_HOME:-$HOME/.config}/shell/zshnameddirrc"
 
 # Basic auto/tab complete:
 autoload -U compinit
@@ -176,4 +215,5 @@ autoload edit-command-line; zle -N edit-command-line
 bindkey '^e' edit-command-line
 
 # Load syntax highlighting; should be last.
-source $HOME/.local/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh 2>/dev/nullZ
+[ -f "$HOME/.local/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh" ] && source $HOME/.local/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh 2>/dev/null
+[ -f "$HOME/.local/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh" ] && source $HOME/.local/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
