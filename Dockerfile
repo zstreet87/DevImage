@@ -109,8 +109,6 @@ COPY .local /root/.local
 COPY .config /root/.config
 COPY .zshrc /root/.zshrc
 COPY .tmux.conf /root/.tmux.conf
-# RUN sed -i '146i\export RPROMPT="$RPROMPT🐳%F{blue}$DOCKER_CONTAINER_NAME"' /root/.zshrc
-#ENV DOCKER_PROMPT_INFO="🐳%F{blue}$DOCKER_CONTAINER_NAME"
 RUN source ~/.zshrc
 
 ENTRYPOINT ["/bin/zsh"]
