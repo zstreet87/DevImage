@@ -1,4 +1,5 @@
-FROM rocm/rocm-terminal
+# FROM rocm/rocm-terminal
+FROM rocm/mlir
 # FROM rocm/pytorch-private:rocm_pyt20_triton_ub20
 
 MAINTAINER Zachary Streeter <Zachary.Streeter@amd.com>
@@ -19,6 +20,7 @@ RUN apt-get update && apt-get install -y \
   cgdb \
   bash \
   util-linux \
+  highlight \
   mandoc \
   ntfs-3g \
   git \
@@ -60,8 +62,6 @@ RUN apt-get update && apt-get install -y \
   g++ \
   gdb \
   clang \
-  nodejs \
-  npm \
   software-properties-common \
   yarn \
   python3 \
@@ -75,6 +75,24 @@ RUN apt-get update && apt-get install -y locales
 RUN locale-gen en_US.UTF-8
 
 SHELL ["/usr/bin/zsh", "-c"]
+
+# installing latest nodejs and npm
+RUN curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash
+RUN apt install -y nodejs
+RUN npm cache clean -f
+RUN npm install -g n
+RUN n latest
+
+# get latest npm
+RUN npm install -g npm@latest
+
+# installing miniconda
+RUN mkdir -p /root/.miniconda3
+RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /root/.miniconda3/miniconda.sh
+RUN bash /root/.miniconda3/miniconda.sh -b -u -p /root/.miniconda3
+RUN rm -rf /root/.miniconda3/miniconda.sh
+RUN /root/.miniconda3/bin/conda init zsh
+ENV PATH="/root/.miniconda3/bin:$PATH"
 
 # installing rust
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
@@ -90,9 +108,6 @@ RUN cd .neovim; make CMAKE_BUILD=Release && make install
 RUN git clone https://github.com/junegunn/fzf.git .fzf
 RUN ~/.fzf/install
 
-# get latest npm
-RUN npm install -g npm@latest
-
 # LunarVim
 RUN git clone https://github.com/LunarVim/LunarVim .LunarVim
 RUN ~/.LunarVim/utils/installer/install.sh -y
@@ -107,7 +122,7 @@ RUN git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 COPY .local /root/.local
 COPY .config /root/.config
-COPY .zshrc /root/.zshrc
+COPY .zshrc_no_emoji /root/.zshrc
 COPY .tmux.conf /root/.tmux.conf
 RUN source ~/.zshrc
 
