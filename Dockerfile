@@ -112,6 +112,12 @@ RUN ~/.fzf/install
 RUN git clone https://github.com/LunarVim/LunarVim .LunarVim
 RUN ~/.LunarVim/utils/installer/install.sh -y
 
+# Install Chris's LunarVim config
+# TODO: fork and maintain own config
+RUN git clone https://github.com/ChristianChiarulli/lvim.git /root/.config/chris_lvim
+RUN mv /root/.config/lvim /root/config/lvim.old
+RUN cp /root/.config/chris_lvim /root/.config/lvim
+
 # zsh highlighting and autosuggestion
 RUN mkdir -p /root/.local/zsh/plugins
 RUN git clone https://github.com/zdharma-continuum/fast-syntax-highlighting.git /root/.local/share/zsh/plugins/fast-syntax-highlighting
