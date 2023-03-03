@@ -114,9 +114,8 @@ RUN ~/.LunarVim/utils/installer/install.sh -y
 
 # Install Chris's LunarVim config
 # TODO: fork and maintain own config
-RUN git clone https://github.com/ChristianChiarulli/lvim.git /root/.config/chris_lvim
 RUN mv /root/.config/lvim /root/config/lvim.old
-RUN cp /root/.config/chris_lvim /root/.config/lvim
+RUN git clone https://github.com/zstreet87/lvim /root/.config/lvim
 
 # zsh highlighting and autosuggestion
 RUN mkdir -p /root/.local/zsh/plugins
