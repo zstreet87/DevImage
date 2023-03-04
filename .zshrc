@@ -128,10 +128,17 @@ function set-prompt() {
   zstyle ':vcs_info:*' enable git
   precmd() { vcs_info }
 
-  local top_left='%B%F{red}[%f%F{yellow}%n%f%F{green}@%f%F{blue}%M %f%F{magenta}%1d%f%F{red}]%f%b'
+ # Add conda environment to prompt
+  if [ ! -z "$CONDA_DEFAULT_ENV" ]
+  then
+      local top_left="%B%F{cyan}($CONDA_DEFAULT_ENV)%f %F{red}[%f%F{yellow}%n%f%F{green}@%f%F{blue}%M %f%F{magenta
+}%1d%f%F{red}]%f%b"
+  else
+      local top_left='%B%F{red}[%f%F{yellow}%n%f%F{green}@%f%F{blue}%M %f%F{magenta}%1d%f%F{red}]%f%b'
+  fi
   local top_right="${vcs_info_msg_0_}" # Git info
   local bottom_left='%B%F{white}%{➜ %2G%}%f%b' 
-  local bottom_right="%B%F{blue}%{🐳%2G%} ${DOCKER_CONTAINER_NAME}%f%b"
+  local bottom_right="%B%F{blue}%{container %2G%} ${DOCKER_CONTAINER_NAME}%f%b"
 
   PROMPT="$(fill-line "$top_left" "$top_right")"$'\n'$bottom_left
   RPROMPT=$bottom_right
