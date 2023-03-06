@@ -138,7 +138,7 @@ function set-prompt() {
   fi
   local top_right="%B${vcs_info_msg_0_}%b" # Git info
   local bottom_left='%B%F{white}%{➜ %2G%}%f%b' 
-  local bottom_right="%B%F{blue}%{container %2G%} ${DOCKER_CONTAINER_NAME}%f%b"
+  local bottom_right="%B%F{blue}%{🐳 %2G%} ${DOCKER_CONTAINER_NAME}%f%b"
 
   PROMPT="$(fill-line "$top_left" "$top_right")"$'\n'$bottom_left
   RPROMPT=$bottom_right
