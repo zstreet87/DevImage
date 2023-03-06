@@ -136,7 +136,7 @@ function set-prompt() {
   else
       local top_left='%B%F{red}[%f%F{yellow}%n%f%F{green}@%f%F{blue}%M %f%F{magenta}%1d%f%F{red}]%f%b'
   fi
-  local top_right="${vcs_info_msg_0_}" # Git info
+  local top_right="%B${vcs_info_msg_0_}%b" # Git info
   local bottom_left='%B%F{white}%{➜ %2G%}%f%b' 
   local bottom_right="%B%F{blue}%{container %2G%} ${DOCKER_CONTAINER_NAME}%f%b"
 
