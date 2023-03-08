@@ -127,7 +127,7 @@ RUN git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 COPY .local /root/.local
 COPY .config /root/.config
-COPY .zshrc_no_emoji /root/.zshrc
+COPY .zshrc /root/.zshrc
 COPY .tmux.conf /root/.tmux.conf
 RUN source ~/.zshrc
 
