@@ -1,8 +1,8 @@
 # FROM rocm/rocm-terminal
-FROM rocm/mlir
-# FROM rocm/pytorch-private:rocm_pyt20_triton_ub20
+# FROM rocm/mlir
+FROM rocm/pytorch-private:rocm_pyt20_triton_ub20
 
-MAINTAINER Zachary Streeter <Zachary.Streeter@amd.com>
+LABEL maintainer="Zachary Streeter Zachary.Streeter@amd.com"
 USER root
 
 # Setting workspace
@@ -45,7 +45,6 @@ RUN apt-get update && apt-get install -y \
   nnn \
   zsh \
   tmux \
-  fzf \
   vim \
   make \
   cmake \
@@ -87,12 +86,12 @@ RUN n latest
 RUN npm install -g npm@latest
 
 # installing miniconda
-RUN mkdir -p /root/.miniconda3
-RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /root/.miniconda3/miniconda.sh
-RUN bash /root/.miniconda3/miniconda.sh -b -u -p /root/.miniconda3
-RUN rm -rf /root/.miniconda3/miniconda.sh
-RUN /root/.miniconda3/bin/conda init zsh
-ENV PATH="/root/.miniconda3/bin:$PATH"
+#RUN mkdir -p /root/.miniconda3
+# RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /root/.miniconda3/miniconda.sh
+# RUN bash /root/.miniconda3/miniconda.sh -b -u -p /root/.miniconda3
+# RUN rm -rf /root/.miniconda3/miniconda.sh
+# RUN /root/.miniconda3/bin/conda init zsh
+# ENV PATH="/root/.miniconda3/bin:$PATH"
 
 # installing rust
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
@@ -106,7 +105,7 @@ RUN git clone https://github.com/neovim/neovim.git .neovim
 RUN cd .neovim; make CMAKE_BUILD=Release && make install 
 
 RUN git clone https://github.com/junegunn/fzf.git .fzf
-RUN ~/.fzf/install
+RUN ~/.fzf/install --no-bash --no-fish --all
 
 # LunarVim
 RUN git clone https://github.com/LunarVim/LunarVim .LunarVim
@@ -114,7 +113,7 @@ RUN ~/.LunarVim/utils/installer/install.sh -y
 
 # Install Chris's LunarVim config
 # TODO: fork and maintain own config
-RUN mv /root/.config/lvim /root/config/lvim.old
+RUN mv /root/.config/lvim /root/.config/lvim.old
 RUN git clone https://github.com/zstreet87/lvim /root/.config/lvim
 
 # zsh highlighting and autosuggestion
@@ -127,7 +126,7 @@ RUN git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 COPY .local /root/.local
 COPY .config /root/.config
-COPY .zshrc_no_emoji /root/.zshrc
+COPY .zshrc /root/.zshrc
 COPY .tmux.conf /root/.tmux.conf
 RUN source ~/.zshrc
 
