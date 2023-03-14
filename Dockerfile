@@ -111,8 +111,7 @@ RUN ~/.fzf/install --no-bash --no-fish --all
 RUN git clone https://github.com/LunarVim/LunarVim .LunarVim
 RUN ~/.LunarVim/utils/installer/install.sh -y
 
-# Install Chris's LunarVim config
-# TODO: fork and maintain own config
+# Install my LunarVim config
 RUN mv /root/.config/lvim /root/.config/lvim.old
 RUN git clone https://github.com/zstreet87/lvim /root/.config/lvim
 
