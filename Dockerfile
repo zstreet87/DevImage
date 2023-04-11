@@ -1,6 +1,4 @@
-# FROM rocm/rocm-terminal
-# FROM rocm/mlir
-FROM rocm/pytorch-private:rocm_pyt20_triton_ub20
+FROM rocm/pytorch:latest
 
 LABEL maintainer="Zachary Streeter Zachary.Streeter@amd.com"
 USER root
