@@ -109,9 +109,8 @@ RUN ~/.fzf/install --no-bash --no-fish --all
 RUN git clone https://github.com/LunarVim/LunarVim .LunarVim
 RUN ~/.LunarVim/utils/installer/install.sh -y
 
-# Install my LunarVim config
-RUN mv /root/.config/lvim /root/.config/lvim.old
-RUN git clone https://github.com/zstreet87/lvim /root/.config/lvim
+# Install my nvim config
+RUN git clone https://github.com/zstreet87/nvim /root/.config/nvim
 
 # zsh highlighting and autosuggestion
 RUN mkdir -p /root/.local/zsh/plugins
