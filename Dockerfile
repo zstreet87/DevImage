@@ -106,7 +106,7 @@ RUN git clone https://github.com/junegunn/fzf.git .fzf
 RUN ~/.fzf/install --no-bash --no-fish --all
 
 # Install my nvim config
-RUN git clone https://github.com/zstreet87/nvim /root/.config/nvim
+RUN git clone https://github.com/zstreeter/nvim /root/.config/nvim
 
 # zsh highlighting and autosuggestion
 RUN mkdir -p /root/.local/zsh/plugins
