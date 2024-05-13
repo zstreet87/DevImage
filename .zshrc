@@ -15,9 +15,9 @@ export PATH
 unsetopt PROMPT_SP
 
 # Default programs:
-export EDITOR="lvim"
+export EDITOR="nvim"
 export TERMINAL="st"
-export MANPAGER="lvim -c 'set ft=man' -"
+export MANPAGER="nvim -c 'set ft=man' -"
 
 # Number of threads available "cat /proc/cpuinfo | grep processor | wc -l"
 export JULIA_NUM_THREADS=48
