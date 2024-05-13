@@ -1,4 +1,4 @@
-FROM rocm/pytorch:latest
+FROM rocm/jax-build:rocm6.1.1-jax0.4.28-py3.10.14
 
 LABEL maintainer="Zachary Streeter Zachary.Streeter@amd.com"
 USER root
@@ -94,6 +94,9 @@ RUN npm install -g npm@latest
 # installing rust
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 
+# installing yazi file manager
+RUN cargo install --locked --git https://github.com/sxyazi/yazi.git yazi-cli yazi-fm
+
 # Installing gdb-dashboard
 RUN git clone https://github.com/cyrus-and/gdb-dashboard.git .gdb-dashboard
 RUN cp /root/.gdb-dashboard/.gdbinit /root/.gdbinit
@@ -106,7 +109,7 @@ RUN git clone https://github.com/junegunn/fzf.git .fzf
 RUN ~/.fzf/install --no-bash --no-fish --all
 
 # Install my nvim config
-RUN git clone https://github.com/zstreet87/nvim /root/.config/nvim
+RUN git clone https://github.com/zstreeter/nvim /root/.config/nvim
 
 # zsh highlighting and autosuggestion
 RUN mkdir -p /root/.local/zsh/plugins
