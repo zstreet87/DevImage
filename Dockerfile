@@ -83,10 +83,9 @@ RUN git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf \
 # Install yazi from source
 RUN cargo install --locked yazi-fm
 RUN mkdir -p /root/.config/yazi/plugins
-# Use 'yazi pack' as 'ya' might be an alias not available in RUN
 # Chain commands with && to ensure they run sequentially and fail the build if one fails
-RUN yazi pack -a yazi-rs/plugins:full-border && \
-    yazi pack -a yazi-rs/plugins:smart-enter
+RUN ya pack -a yazi-rs/plugins:full-border && \
+    ya pack -a yazi-rs/plugins:smart-enter
 
 # Install Node.js (needed for some Neovim plugins)
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
