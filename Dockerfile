@@ -83,9 +83,27 @@ RUN git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf \
 # Install yazi from source
 RUN cargo install --locked yazi-fm
 RUN mkdir -p /root/.config/yazi/plugins
-# Chain commands with && to ensure they run sequentially and fail the build if one fails
-RUN ya pack -a yazi-rs/plugins:full-border && \
-    ya pack -a yazi-rs/plugins:smart-enter
+# Install Yazi plugins by cloning the official plugin repository
+# and copying the specific plugins.
+RUN PLUGIN_DIR="/root/.config/yazi/plugins" && \
+    mkdir -p ${PLUGIN_DIR} && \
+    git clone --depth 1 https://github.com/yazi-rs/plugins.git /tmp/yazi-plugins-repo && \
+    if [ -d "/tmp/yazi-plugins-repo/full-border.yazi" ]; then \
+        cp -R /tmp/yazi-plugins-repo/full-border.yazi ${PLUGIN_DIR}/ ; \
+    else \
+        echo "Error: full-border.yazi not found in repository root" ; \
+        # Depending on the repo structure, it might be in a subdirectory e.g. /tmp/yazi-plugins-repo/plugins/full-border.yazi
+        # Adjust the path if necessary after inspecting the repository structure.
+        # For yazi-rs/plugins, they are typically at the root.
+        exit 1; \
+    fi && \
+    if [ -d "/tmp/yazi-plugins-repo/smart-enter.yazi" ]; then \
+        cp -R /tmp/yazi-plugins-repo/smart-enter.yazi ${PLUGIN_DIR}/ ; \
+    else \
+        echo "Error: smart-enter.yazi not found in repository root" ; \
+        exit 1; \
+    fi && \
+    rm -rf /tmp/yazi-plugins-repo
 
 # Install Node.js (needed for some Neovim plugins)
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
