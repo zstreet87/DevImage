@@ -70,7 +70,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Install exa (modern ls replacement)
-RUN cargo install --locked exa
+RUN cargo install --locked eza
 
 # Create symlink for fd and bat (different names in Debian/Ubuntu)
 RUN ln -s $(which fdfind) /usr/local/bin/fd \
@@ -82,6 +82,11 @@ RUN git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf \
 
 # Install yazi from source
 RUN cargo install --locked yazi-fm
+RUN mkdir -p /root/.config/yazi/plugins
+# Use 'yazi pack' as 'ya' might be an alias not available in RUN
+# Chain commands with && to ensure they run sequentially and fail the build if one fails
+RUN yazi pack -a yazi-rs/plugins:full-border && \
+    yazi pack -a yazi-rs/plugins:smart-enter
 
 # Install Node.js (needed for some Neovim plugins)
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
