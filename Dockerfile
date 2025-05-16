@@ -106,7 +106,7 @@ RUN PLUGIN_DIR="/root/.config/yazi/plugins" && \
     rm -rf /tmp/yazi-plugins-repo
 
 # Install Node.js (needed for some Neovim plugins)
-RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
+RUN curl -fsSL https://deb.nodesource.com/setup_24.x | bash - \
     && apt-get install -y nodejs \
     && rm -rf /var/lib/apt/lists/*
 
