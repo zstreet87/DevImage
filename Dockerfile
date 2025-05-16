@@ -117,8 +117,8 @@ WORKDIR /root
 RUN mkdir -p ~/.config ~/.local/share
 
 # Install Zsh ZAP (Zsh plugin manager) from your setup
-RUN mkdir -p ~/.local/share/zap \
-    && zsh -c "$(curl -s https://raw.githubusercontent.com/zap-zsh/zap/master/install.zsh) --branch release-v1 --keep"
+RUN rm -rf ~/.local/share/zap && \
+    zsh -c "$(curl -s https://raw.githubusercontent.com/zap-zsh/zap/master/install.zsh) --branch release-v1 --keep"
 
 # Install F-Sy-H (Fast Syntax Highlighting for Zsh)
 RUN git clone https://github.com/z-shell/F-Sy-H ~/.local/share/zap/plugins/f-sy-h
