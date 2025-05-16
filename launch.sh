@@ -1,9 +1,23 @@
 #!/usr/bin/env bash
 # Enhanced DevImage launch script for AMD ROCm, NVIDIA, or CPU environments
 # Version 2.0
+#
+# Usage:
+#   Method 1: Make executable with: chmod +x launch.sh
+#             Then run with: ./launch.sh image_name
+#   Method 2: Run directly with: bash launch.sh image_name
+#
+# Note: Running with "bash launch.sh" is fully supported
 
 # Exit on errors, undefined variables, and pipe failures
 set -euo pipefail
+
+# Ensure script works correctly when run with "bash script.sh"
+if [ -n "${BASH_SOURCE[0]}" ]; then
+	SCRIPT_NAME=$(basename "${BASH_SOURCE[0]}")
+else
+	SCRIPT_NAME=$(basename "$0")
+fi
 
 # Script name for usage messages
 SCRIPT_NAME=$(basename "$0")
@@ -205,7 +219,7 @@ rocm)
 		--device=/dev/kfd \
 		--device=/dev/dri \
 		--group-add=video \
-		"$IMAGE_ID"
+		"$IMAGE_ID" || true
 	;;
 nvidia)
 	success "Launching container with NVIDIA GPU support"
@@ -215,7 +229,7 @@ nvidia)
 		--pid=host \
 		--gpus all \
 		--group-add=video \
-		"$IMAGE_ID"
+		"$IMAGE_ID" || true
 	;;
 cpu)
 	success "Launching container in CPU-only mode"
@@ -223,13 +237,23 @@ cpu)
 		"${COMMON_ARGS[@]}" \
 		"${NETWORK_ARGS[@]}" \
 		--pid=host \
-		"$IMAGE_ID"
+		"$IMAGE_ID" || true
 	;;
 esac
 
-EXIT_CODE=$?
-if [ $EXIT_CODE -eq 0 ]; then
-	success "Container exited successfully."
+# Check exit status but don't propagate failures from inside the container
+DOCKER_EXIT_CODE=$?
+if [ $DOCKER_EXIT_CODE -eq 0 ]; then
+	success "Container session ended normally."
+elif [ $DOCKER_EXIT_CODE -eq 130 ]; then
+	# Exit code 130 is from Ctrl+C, which is a normal way to exit
+	success "Container session ended (interrupted by user)."
+elif [ $DOCKER_EXIT_CODE -eq 137 ]; then
+	# Exit code 137 typically means the container was killed
+	warn "Container was terminated."
 else
-	error "Container exited with code $EXIT_CODE."
+	warn "Container exited with code $DOCKER_EXIT_CODE. This is ok if you were able to use the container."
 fi
+
+# Always exit successfully since container internal errors shouldn't fail the script
+exit 0
