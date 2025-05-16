@@ -39,7 +39,10 @@ ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
 # Install latest Rust
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && \
+    . "$HOME/.cargo/env" && \
+    rustup update stable && \
+    rustup default stable
 ENV PATH="/root/.cargo/bin:${PATH}"
 
 # Workspace directory for building tools
@@ -69,8 +72,13 @@ RUN apt-get update && apt-get install -y \
     fd-find \
     && rm -rf /var/lib/apt/lists/*
 
-# Install exa (modern ls replacement)
 RUN cargo install --locked eza
+
+# After installing eza, copy the completion file
+RUN mkdir -p ~/.local/share/zsh/site-functions && \
+    cp ~/.cargo/registry/src/*/eza-*/completions/zsh/_eza ~/.local/share/zsh/site-functions/ || \
+    curl -sSL https://raw.githubusercontent.com/eza-community/eza/main/completions/zsh/_eza > ~/.local/share/zsh/site-functions/_eza && \
+    chmod 644 ~/.local/share/zsh/site-functions/_eza
 
 # Create symlink for fd and bat (different names in Debian/Ubuntu)
 RUN ln -s $(which fdfind) /usr/local/bin/fd \
